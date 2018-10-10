@@ -1,3 +1,5 @@
+# pylint: disable=E1135,E1136
+
 import bottle
 import random
 import traceback

@@ -18,16 +18,15 @@ def checkGuess(guess, secretNum):
 def main():
     global secret
     secret = pickSecretNumber()
+    print('I picked ' + str(secret) + ' (shhh!)')
     return GUESS_FORM.format('')
 
 @bottle.route("/guess")
 def guess():
-    try:
-        theGuess = int(bottle.request.params['guess'])
-        result = checkGuess(theGuess, secret)
-    except:
-        return GUESS_FORM.format("Please enter a valid number")
-
+    
+    theGuess = int(bottle.request.params['guess'])
+    result = checkGuess(theGuess, secret)
+    
     if theGuess == secret:
         return """You got it!"""
     else:

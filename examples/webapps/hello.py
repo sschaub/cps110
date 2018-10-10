@@ -7,10 +7,11 @@ import datetime
 
 @bottle.route('/')
 def home():
-    return """<html><body>Welcome!
-    The time is {}.
+    datestr = datetime.datetime.now()
+    return f"""<html><body>Welcome!
+    The time is {datestr}.
     <a href="/page2">Click here</a> for page 2.
-    </body></html>""".format(datetime.datetime.now())
+    </body></html>"""
 
 @bottle.route('/page2')
 def page2():
@@ -25,10 +26,9 @@ def hello():
     if 'age' in bottle.request.params:
         age = bottle.request.params['age']
 
-    return """<html><body>
-        <h1>Hello, {0}!</h1>
-        You are {1} years old.</body></html>""".format(
-            name, age)
+    return f"""<html><body>
+        <h1>Hello, {name}!</h1>
+        You are {age} years old.</body></html>"""
 
 # Launch the BottlePy dev server
 if __name__ == "__main__":
