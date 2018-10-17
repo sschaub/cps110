@@ -6,5 +6,10 @@ __pycache__/
 # VSCode
 .vscode
 
+# In class examples
+*_inclass*
+
+# Misc
+
 Thumbs.db
 
