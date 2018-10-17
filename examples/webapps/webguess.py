@@ -29,9 +29,12 @@ def guess():
     try:
         theGuess = int(bottle.request.params['guess'])
         result = checkGuess(theGuess, secret)
-    except:
+    except ValueError:
         traceback.print_exc()
         return GUESS_FORM.format("Please enter a valid number")
+    except Exception as e:
+        traceback.print_exc()
+        return GUESS_FORM.format("Oops! Something weird happened. Please contact the webmaster for help.")
 
     if theGuess == secret:
         return """You got it!"""
@@ -39,24 +42,9 @@ def guess():
         return GUESS_FORM.format(result)
     
 
-GUESS_FORM = """
-<html>
-<body>
-<h1>Welcome to Guess</h1>
-
-I've picked a secret number from 1 to 10.
-
-<form action="/guess">
-Enter your guess: <input type="text" name="guess">
-<input type="submit" value="Guess">
-</form>
-
-{}
-
-</body>
-</html>
-
-"""
+f = open('guessform.html','r')
+GUESS_FORM = f.read()
+f.close()
 
 if __name__ == "__main__":
     bottle.run(host='localhost', debug=True)

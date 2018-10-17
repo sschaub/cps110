@@ -9,15 +9,8 @@ SOUNDS = ["236982__devengarber__jacob-allen-evil-laugh",
     
 @bottle.route('/')
 def picker():
-    stuName, stuUsername = students[random.randrange(len(students))]
-    effect = SOUNDS[random.randrange(len(SOUNDS))]
 
     return HTML.format(stuName, stuUsername, effect)
-
-@bottle.route('/<filename:path>')
-def send_static(filename):
-    """Serve up images and sounds."""
-    return bottle.static_file(filename, root='.')
 
 HTML = """
 <html>
@@ -46,6 +39,11 @@ def readStudentFile():
     print("Loaded data: ", students)
 
 if __name__ == '__main__':
+    @bottle.route('/<filename:path>')
+    def send_static(filename):
+        """Serve up images and sounds."""
+        return bottle.static_file(filename, root='.')
+
     readStudentFile()
 
     # Launch the BottlePy dev server

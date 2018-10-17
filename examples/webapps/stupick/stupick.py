@@ -2,13 +2,23 @@ import os.path
 import bottle
 import random
 
+# To create a desktop shortcut using Chrome:
+# "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --chrome-frame --app="http://sschaub.pythonanywhere.com/stupick"
+
 SOUNDS = ["236982__devengarber__jacob-allen-evil-laugh",
     "347547__masgame__applause",
     "371339__johanneskristjansson__cheer-crowd",
     "stupick3-men-cheering"]
+
+CUR_DIR = os.path.dirname(__file__)
+students = []
     
 @bottle.route('/stupick')
 def picker():
+
+    with open(CUR_DIR + '/stupick.html') as htmlfile:
+        HTML = htmlfile.read()
+
     if len(students) == 0:
         readStudentFile()
     stuInx = random.randrange(len(students))
@@ -16,42 +26,10 @@ def picker():
     del students[stuInx]
     effect = SOUNDS[random.randrange(len(SOUNDS))]
 
-    return HTML.format(stuName, stuUsername, effect)
+    return HTML.format(name=stuName, username=stuUsername, sound=effect)
 
-HTML = """
-<html>
-<head>
-<style>
-html, body {{
-    height: 100%;
-}}
-
-html {{
-    display: table;
-    margin: auto;
-}}
-
-body {{
-    display: table-cell;
-    vertical-align: middle;
-    background: black;
-    color: darkblue;
-}}
-</style>
-</head>
-<body>
-<img src="/stupics/{1}.bmp" width="200">
-<h3>{0}</h3>
-<audio autoplay>
-  <source src="/sounds/{2}.mp3" type="audio/mpeg" >
-</audio>
-</body>
-</html>
-"""
-
-students = []
 def readStudentFile():
-    with open(os.path.dirname(__file__) + '/cps110.txt') as stufile: 
+    with open(CUR_DIR + '/cps110.txt') as stufile: 
         for student in stufile:
             [_, _, firstname, lastname, username] = student.split(',')        
             students.append((firstname[0] + ". " + lastname, username))
