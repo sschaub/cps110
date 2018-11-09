@@ -44,13 +44,13 @@ class ToyChest:
                 del self.items[i]
                 return
 
-    # Buggy: Does not delete all toys with lovable < 3
     def disposeUnlovedToys(self):
         i = 0
         while i < len(self.items):
             if self.items[i].lovable < 3:
                 del self.items[i]
-            i += 1
+            else:
+                i += 1
 
     def __repr__(self):
         return str(self.items)
